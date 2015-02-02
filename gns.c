@@ -1,8 +1,13 @@
+
+/* To run this program use the command-line below:
+ *	Unix:           quotient -linkname "math -mathlink"
+ *	Mac or Windows: quotient -linkmode launch
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <math.h>
-
+#include <string.h>
 #include "queue.h"
 
 struct GNS
@@ -27,27 +32,20 @@ int* increase_by_one(int* starting);
 int calculate_degree(int* element);
 void add_together(int* first, int* second, int** sum_ptr);
 
+
+
+
+
 int main (int argc, char** argv)
 {
-	d = 4;
+	d = 2;
 	//print_gns(create_genus_zero());
 	initQueue();
-	int array[4] = {0,1,0,0};
-	d = 4;
-	int array1[4] = {1,0,2,3};
-	int sum1 = 6;
-	int array2[4] = {4,2,2,1};
-	int sum2 = 9;
-	int array3[4] = {5,2,4,4};
-	int sum3 = sum1+sum2;
-	//printf("%d %d %d\n", calculate_index(array1, sum1, d), calculate_index(array2, sum2, d), calculate_index(array3, sum3, d));
-	int start[4] = {0,4,0,0};
-	int* returned = increase_by_one(start, 4);
-	for (int i = 0; i < 4; i++)
-	{
-		printf("%d ", returned[i]);
-	}
-	printf("\n");
+
+	struct GNS* genus_zero = create_genus_zero();
+
+
+
 	return 0;
 }
 
@@ -184,11 +182,12 @@ int* increase_by_one(int* starting)
 			return to_return;
 		}
 	}
+	return to_return;
 }
 
 int calculate_degree(int* element)
 {
-	total = 0;
+	int total = 0;
 	for (int i = 0; i < d; i++)
 	{
 		total += element[i];
@@ -206,178 +205,3 @@ void add_together(int* first, int* second, int** sum_ptr)
 	}
 }
 
-
-
-
-struct GNS* next_gns (struct GNS* gns)
-{
-	// you need to figure out the Frobenius order, then go up to 2*F_o + 1
-	// for a given order, a, you need
-	int frobenius_degree = gns->frobernius_degree;
-	int num_holes = gns->num_holes;
-	int** holes = gns->holes;
-	int* hole_set_degree_start = malloc ((frobenius_degree+1)*sizeof (int));
-	int* hole_set_indicies = malloc(num_holes*sizeof(int));
-	int where_last = 0;
-	
-	// you can put a bound on how many new generators you'll need
-	int** new_generators = malloc (2*(gns->num_generators)*sizeof (int*));
-	int new_gen_index = 0;
-	for (int i = 0; i < num_holes; i++)
-	{
-		int of_interest = calculate_degree(holes[i]);
-		hole_set_indices[i] = of_interest;
-		for (int j = where_last; j < of_interest; j++)
-		{
-			hole_set_degree_start[j] = i;
-		}
-		where_last = of_interest;
-	}
-	for (int l = 1; l <= 2*frobenius_degree+1; l++)
-	{
-		int how_many_l = n_choose_k(l+d-1, l);
-		int* list_l = calloc(how_many_l, sizeof(int));
-		// only need to remove holes if l <= frobenius_degree
-
-
-		for (int k = 1; k < (int) floor(k/2.0); k++)
-		{
-			int* one_before_k = malloc(d*sizeof(int));
-			for (int i = 0; i < d-1; i++)
-			{
-				one_before_k[i] = 0;
-			}
-			one_before_k[d-1] = k;
-			int how_many_k = n_choose_k(k+d-1, k);
-			int** list_k = malloc(how_many_k*sizeof(int*));
-			list_k[0] = one_before_k;
-			for (int a = 1; a < how_many_k; a++)
-			{
-				int* returned = increase_by_one(one_before_k);
-				list_k[a] = returned;
-				one_before_k = returned;
-			}
-
-			int hole_start = hole_set_degree_start[k];
-			int where_stop = (k != frobenius_degree) ? hole_set_degree_start[k+1] : num_holes-1;
-			for (; hole_start < where_stop; hole_start++)
-			{
-				free(list_k[hole_set_indices[hole_start]]);
-				list_k[hole_set_indices[hole_start]] = NULL;
-			}
-
-			int comp_k = l-k;
-			int* one_before_comp_k = malloc(d*sizeof(int));
-			for (int i = 0; i < d-1; i++)
-			{
-				one_before_comp_k[i] = 0;
-			}
-			one_before_comp_k[d-1] = comp_k;
-			int how_many_comp_k = n_choose_k(comp_k+d-1, comp_k);
-			int** list_comp_k = malloc(how_many_comp_k*sizeof(int*));
-			list_comp_k[0] = one_before_comp_k;
-			for (int a = 1; a < how_many_comp_k; a++)
-			{
-				int* returned = increase_by_one(one_before_comp_k);
-				list_comp_k[a] = returned;
-				one_before_comp_k = returned;
-			}
-
-			if (comp_k <= frobenius_degree)
-			{
-				int hole_start = hole_set_degree_start[comp_k];
-				int where_stop = (comp_k != frobenius_degree) ? hole_set_degree_start[comp_k] : num_holes-1;
-				for (; hole_start < where_stop; hole_start++)
-				{
-					free (list_comp_k[hole_set_indices[hole_start]]);
-					list_comp_k[hole_set_indices[hole_start]] = NULL;
-				}
-			}
-
-			// ok, so now we can go through the two lists
-			int* catcher = malloc (d*sizeof(int));
-			for (int m = 0; m < how_many_k; m++)
-			{
-				int* of_interest = list_k[m];
-				if (of_interest != NULL)
-				{
-					for (int n = 0; n < how_many_comp_k; n++)
-					{
-						int* of_interest2 = list_comp_k[n];
-						if (of_interest2 != NULL)
-						{
-							add_together(of_interest, of_interest2, &catcher);
-							list_l[calculate_index(catcher, l)] = 1;
-						}
-					}
-				}
-			}
-
-			// need to free
-			for (int i = 0; i < how_many_k; i++)
-			{
-				free (list_k[i]);
-			}
-			free(list_k);
-
-			for (int i = 0; i < how_many_comp_k; i++)
-			{
-				free (list_comp_k[i]);
-			}
-			free(list_comp_k);
-		}
-		
-		if (l <= frobenius_order)
-		{
-			int hole_start = hole_set_degree_start[l];
-			int where_stop = (l != frobenius_degree) ? hole_set_degree_start[l+1] : num_holes-1;
-			for (; hole_start < where_stop; hole_start++)
-			{
-				list_l[hole_set_indices[hole_start]] = 1;
-			}
-		}
-
-
-		int* first_l = malloc(d*sizeof(int));
-		for (int i = 0; i < d-1; i++)
-		{
-			first_l[i] = 0
-		}
-		first_l[d-1] = l;
-		if (list_l[0] == 0)
-		{
-			int* to_insert = malloc(d*sizeof(int));
-			for (int i = 0; i < d; i++)
-			{
-				to_insert[i] = first_l[i];
-			}
-			new_generators[new_gen_index] = to_insert;
-			new_gen_index += 1;
-		}
-		int* last_one = first_l;
-
-		for (int i = 1; i < how_many_l; i++)
-		{
-			int* potential_generator = increase_by_one(last_one, l);
-			if (list_l[i] == 0)
-			{
-				int* to_insert = malloc(d*sizeof(int));
-				for (int j = 0; j < d; j++)
-				{
-					to_insert[j] = potential_generator[j];
-				}
-				new_generators[new_gen_index] = to_insert;
-				new_gen_index += 1;
-			}
-			free (last_one);
-			last_one = potential_generator;
-		}
-
-		// so now you have it for l
-	}
-	// you've now done it for all l
-
-	// new_generators is complete. you did it!
-
-	
-}
