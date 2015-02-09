@@ -1,0 +1,40 @@
+b
+c
+d
+e
+f
+g
+h
+i
+j
+ab
+0 0 0 0 0 0 0 0 1 0 
+0 0 0 0 0 0 0 1 0 0 
+0 0 0 0 0 0 1 0 0 0 
+0 0 0 0 0 1 0 0 0 0 
+0 0 0 0 1 0 0 0 0 0 
+0 0 0 1 0 0 0 0 0 0 
+0 0 1 0 0 0 0 0 0 0 
+0 1 0 0 0 0 0 0 0 0 
+1 0 0 0 0 0 0 0 0 0 
+index: 0 0 9
+index: 1 1 9
+index: 2 2 9
+index: 3 3 9
+index: 4 4 9
+index: 5 5 9
+index: 6 6 9
+index: 7 7 9
+index: 8 8 9
+index: 9 9 9
+index: 10 9 10
+index: 11 9 11
+index: 12 9 12
+index: 13 9 13
+index: 14 9 14
+index: 15 9 15
+index: 16 9 16
+index: 17 9 17
+index: 18 9 18
+index: 19 9 19
+

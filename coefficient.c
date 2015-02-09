@@ -16,7 +16,7 @@
 #define SPECIAL_START(a) ((a == 0) ? 1 : 0)
 
 static void init_and_openlink( int argc, char* argv[]);
-int calculate_coefficient (int** exponent_list, int list_length, int missing_index, int d, char** symbols);
+int calculate_coefficient (int** exponent_list, int list_length, int missing_index, int e, char** symbols);
 
 
 WSENV ep = (WSENV)0;
@@ -68,7 +68,7 @@ int main( int argc, char* argv[])
 */
 
 
-int calculate_coefficient (int** exponent_list, int list_length, int missing_index, int d, char** symbols)
+int calculate_coefficient (int** exponent_list, int list_length, int missing_index, int e, char** symbols)
 {
 	int coefficient, pkt;
 	// need to make the symbols list
@@ -76,7 +76,7 @@ int calculate_coefficient (int** exponent_list, int list_length, int missing_ind
 	int* exponent = exponent_list[missing_index];
 
 	WSPutFunction (lp, "EvaluatePacket", 1L);
-		WSPutFunction (lp, "SeriesCoefficient", d+1);
+		WSPutFunction (lp, "SeriesCoefficient", e+1);
 			WSPutFunction (lp, "Times", list_length-1);
 			for (int i = SPECIAL_START(missing_index); i < list_length; SPECIAL_INCREMENT(missing_index, i))
 			{
@@ -84,15 +84,15 @@ int calculate_coefficient (int** exponent_list, int list_length, int missing_ind
 					WSPutInteger (lp, 1);
 					WSPutFunction (lp, "Subtract", 2);
 						WSPutInteger (lp, 1);
-						WSPutFunction (lp, "Times", d);
-							for (int j = 0; j < d; j++)
+						WSPutFunction (lp, "Times", e);
+							for (int j = 0; j < e; j++)
 							{
 								WSPutFunction (lp, "Power", 2);
 									WSPutSymbol (lp, symbols[j]);
 									WSPutInteger (lp, exponent_list[i][j]);
 							}
 			}
-			for (int i = 0; i < d; i++)
+			for (int i = 0; i < e; i++)
 			{
 				WSPutFunction (lp, "List", 3);
 					WSPutSymbol (lp, symbols[i]);
