@@ -16,8 +16,9 @@
 #define SPECIAL_START(a) ((a == 0) ? 1 : 0)
 
 static void init_and_openlink( int argc, char* argv[]);
+static void closelink( void);
+static void deinit( void);
 int calculate_coefficient (int** exponent_list, int list_length, int missing_index, int e, char** symbols);
-
 
 WSENV ep = (WSENV)0;
 WSLINK lp = (WSLINK)0;
@@ -132,7 +133,7 @@ static void init_and_openlink( int argc, char* argv[])
 	long err;
 #endif /* WSINTERFACE >= 3 */
 
-	ep =  WSInitialize( (WSParametersPointer)0);
+	ep =  WSInitialize( (WSEnvironmentParameter)0);
 	if( ep == (WSENV)0) exit(1);
 	atexit( deinit);
 

@@ -10,9 +10,9 @@ VERSION=10.0
 WSTPLINKDIR = "/Volumes/Mathematica 1/Mathematica.app/Contents/SystemFiles/Links/WSTP/DeveloperKit/"
 SYS = MacOSX-x86-64
 CADDSDIR = ${WSTPLINKDIR}/${SYS}/CompilerAdditions
-EXTRA_CFLAGS=-stdlib=libstdc++ -pedantic -Wall
+EXTRA_CFLAGS=-stdlib=libstdc++
 
-INCDIR = ${CADDSDIR} ${.}
+INCDIR = ${CADDSDIR}
 LIBDIR = ${CADDSDIR}
 
 WSPREP = ${CADDSDIR}/wsprep
@@ -28,7 +28,7 @@ CC2 = gcc
 
 CFLAGS = -g3 -std=c99 -pedantic -Wall
 
-SOURCES1 =  gns.c
+SOURCES1 =  gns.c coefficient.c
 
 SOURCES2 = queue.c
 
@@ -43,6 +43,6 @@ OBJECTS = $(OBJECTS1) $(OBJECTS2)
 all : $(TARGET)
 
 $(TARGET) : $(OBJECTS)
-	${CXX3} ${EXTRA_CFLAGS} -I${INCDIR} $^ -L${LIBDIR} -lWSTPi4 -lstdc++ -framework Foundation -o $@
+	${CXX} ${EXTRA_CFLAGS} $^ -I${INCDIR} -L${LIBDIR}  -lWSTPi4 -lstdc++ -framework Foundation -o $@
 
 	

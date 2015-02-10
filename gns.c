@@ -3,7 +3,8 @@
 #include <math.h>
 #include <string.h>
 #include "queue.h"
-#include "coefficient.c"
+#include "coefficient.h"
+//#include "coefficient.c"
 
 
 struct GNS
@@ -73,7 +74,7 @@ int main (int argc, char** argv)
 	symbols = create_symbols ();
 	for (int i = 0; i < d; i++)
 	{
-		printf ("%s\n", symbols[i]);
+		//printf ("%s\n", symbols[i]);
 	}
 
 
@@ -116,7 +117,7 @@ int main (int argc, char** argv)
 			//print_vector (min_gens[j]);
 
 		}
-		printf ("\n");
+		//printf ("\n");
 
 	}
 	WSPutFunction( lp, "Exit", 0);
@@ -321,7 +322,7 @@ int** create_potential_generators (struct GNS* gns, int missing_index, int* incl
 		if (i != missing_index)
 		{
 			to_return[index] = add_together (generator, zero_vector);
-			print_vector (to_return[index]);
+			//print_vector (to_return[index]);
 			index += 1;
 		}
 		to_return[num_generators-1+i] = add_together (generator, missing_generator);
@@ -399,7 +400,7 @@ int** sorted_generators (int** min_gen, int num_old_gen, int num_total)
 	int new_index = num_old_gen;
 	while (old_index < num_old_gen || new_index < num_total)
 	{
-		printf ("index: %d %d %d\n", index, old_index, new_index);
+		//printf ("index: %d %d %d\n", index, old_index, new_index);
 		if (old_index == num_old_gen)
 		{
 			to_return[index] = min_gen[new_index];

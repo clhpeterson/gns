@@ -1,0 +1,219 @@
+==74064== Memcheck, a memory error detector
+==74064== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==74064== Using Valgrind-3.11.0.SVN and LibVEX; rerun with -h for copyright info
+==74064== Command: ./gns -linkmode launch -linkname '"/Volumes/Mathematica 1/Mathematica.app/Contents/MacOS/MathKernel" -mathlink'
+==74064== 
+--74064-- ./gns:
+--74064-- dSYM directory has wrong UUID; consider using --dsymutil=yes
+--74064-- UNKNOWN mach_msg unhandled MACH_SEND_TRAILER option
+--74064-- UNKNOWN mach_msg unhandled MACH_SEND_TRAILER option (repeated 2 times)
+--74064-- UNKNOWN mach_msg unhandled MACH_SEND_TRAILER option (repeated 4 times)
+==74064== Conditional jump or move depends on uninitialised value(s)
+==74064==    at 0x101258C3F: _platform_memchr$VARIANT$Haswell (in /usr/lib/system/libsystem_platform.dylib)
+==74064==    by 0x10013F07F: WSTP::MLFileManager::createDirectoryWithPermissionsIncludingIntermediates(std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> > const&, WSTP::MLFilePermissions const&) (in ./gns)
+==74064==    by 0x100151597: WSTP::initSyncObjectDir() (in ./gns)
+==74064==    by 0x100152E91: WSTP::MLUnixSyncObject::initializeSyncObjectDir() (in ./gns)
+==74064==    by 0x10015300A: WSTP::MLUnixSyncObject::MLUnixSyncObject() (in ./gns)
+==74064==    by 0x100157275: WSTP::MLPthreadMutexHelper::MLPthreadMutexHelper(std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> >*, bool) (in ./gns)
+==74064==    by 0x100157645: WSTP::MLPthreadMutexHandle::MLPthreadMutexHandle(std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> >&, bool) (in ./gns)
+==74064==    by 0x1001607F3: WSTP::MLThreadsFactory::CreateHandle(std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> >&, bool) (in ./gns)
+==74064==    by 0x10016011D: WSTP::MLThreadsFactory::CreateUnnamedHandle(WSTP::_mlmutex, bool) (in ./gns)
+==74064==    by 0x1001729EA: WSTP::MLSignalHandlerManager::MLSignalHandlerManager(bool) (in ./gns)
+==74064==    by 0x10010409D: ws_environment::ws_environment() (in ./gns)
+==74064==    by 0x100107951: WSBegin (in ./gns)
+==74064== 
+==74064== Invalid read of size 32
+==74064==    at 0x101258C21: _platform_memchr$VARIANT$Haswell (in /usr/lib/system/libsystem_platform.dylib)
+==74064==    by 0x10013F07F: WSTP::MLFileManager::createDirectoryWithPermissionsIncludingIntermediates(std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> > const&, WSTP::MLFilePermissions const&) (in ./gns)
+==74064==    by 0x100151597: WSTP::initSyncObjectDir() (in ./gns)
+==74064==    by 0x100152A96: WSTP::initThreadModule() (in ./gns)
+==74064==    by 0x1001079CD: WSBegin (in ./gns)
+==74064==    by 0x1001078A8: WSInitialize (in ./gns)
+==74064==    by 0x1000019B0: init_and_openlink (in ./gns)
+==74064==    by 0x1000016A4: main (in ./gns)
+==74064==  Address 0x1038e2760 is 14 bytes after a block of size 34 alloc'd
+==74064==    at 0x1002D46F1: malloc (vg_replace_malloc.c:303)
+==74064==    by 0x10010CBC9: std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> >::_Rep::_S_create(unsigned long, unsigned long, WSTP::MLStdAllocator<char> const&) (in ./gns)
+==74064==    by 0x10014F8E7: WSTP::getPathSeparator() (in ./gns)
+==74064==    by 0x10013F037: WSTP::MLFileManager::createDirectoryWithPermissionsIncludingIntermediates(std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> > const&, WSTP::MLFilePermissions const&) (in ./gns)
+==74064==    by 0x100151597: WSTP::initSyncObjectDir() (in ./gns)
+==74064==    by 0x100152A96: WSTP::initThreadModule() (in ./gns)
+==74064==    by 0x1001079CD: WSBegin (in ./gns)
+==74064==    by 0x1001078A8: WSInitialize (in ./gns)
+==74064==    by 0x1000019B0: init_and_openlink (in ./gns)
+==74064==    by 0x1000016A4: main (in ./gns)
+==74064== 
+==74064== Conditional jump or move depends on uninitialised value(s)
+==74064==    at 0x101258C3F: _platform_memchr$VARIANT$Haswell (in /usr/lib/system/libsystem_platform.dylib)
+==74064==    by 0x10013F07F: WSTP::MLFileManager::createDirectoryWithPermissionsIncludingIntermediates(std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> > const&, WSTP::MLFilePermissions const&) (in ./gns)
+==74064==    by 0x100151597: WSTP::initSyncObjectDir() (in ./gns)
+==74064==    by 0x100152A96: WSTP::initThreadModule() (in ./gns)
+==74064==    by 0x1001079CD: WSBegin (in ./gns)
+==74064==    by 0x1001078A8: WSInitialize (in ./gns)
+==74064==    by 0x1000019B0: init_and_openlink (in ./gns)
+==74064==    by 0x1000016A4: main (in ./gns)
+==74064== 
+==74064== Thread 3 ML-SHM-SegmentWatch:
+==74064== Invalid read of size 32
+==74064==    at 0x101258C21: _platform_memchr$VARIANT$Haswell (in /usr/lib/system/libsystem_platform.dylib)
+==74064==    by 0x10006D74B: WSTP::MLSHMRecordManager::isValidRecordFileName(std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> >) (in ./gns)
+==74064==    by 0x10006CF35: WSTP::MLSHMRecordManager::getRecordList() (in ./gns)
+==74064==    by 0x1000552DA: WSTP::MLSharedMemoryWorld::Thread1() (in ./gns)
+==74064==    by 0x100055B4C: non-virtual thunk to WSTP::MLSharedMemoryWorld::Thread1() (in ./gns)
+==74064==    by 0x10126C2FB: _pthread_body (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==    by 0x10126C278: _pthread_start (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==    by 0x10126A4B0: thread_start (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==  Address 0x1038f4020 is 12 bytes after a block of size 52 alloc'd
+==74064==    at 0x1002D46F1: malloc (vg_replace_malloc.c:303)
+==74064==    by 0x10010CBC9: std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> >::_Rep::_S_create(unsigned long, unsigned long, WSTP::MLStdAllocator<char> const&) (in ./gns)
+==74064==    by 0x1001410DD: WSTP::MLFileManager::entryNamesForDirectoryAtPath(std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> > const&) (in ./gns)
+==74064==    by 0x10006CD74: WSTP::MLSHMRecordManager::getRecordList() (in ./gns)
+==74064==    by 0x1000552DA: WSTP::MLSharedMemoryWorld::Thread1() (in ./gns)
+==74064==    by 0x100055B4C: non-virtual thunk to WSTP::MLSharedMemoryWorld::Thread1() (in ./gns)
+==74064==    by 0x10126C2FB: _pthread_body (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==    by 0x10126C278: _pthread_start (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==    by 0x10126A4B0: thread_start (in /usr/lib/system/libsystem_pthread.dylib)
+==74064== 
+==74064== Invalid read of size 32
+==74064==    at 0x101258C21: _platform_memchr$VARIANT$Haswell (in /usr/lib/system/libsystem_platform.dylib)
+==74064==    by 0x10006D013: WSTP::MLSHMRecordManager::getRecordList() (in ./gns)
+==74064==    by 0x1000552DA: WSTP::MLSharedMemoryWorld::Thread1() (in ./gns)
+==74064==    by 0x100055B4C: non-virtual thunk to WSTP::MLSharedMemoryWorld::Thread1() (in ./gns)
+==74064==    by 0x10126C2FB: _pthread_body (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==    by 0x10126C278: _pthread_start (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==    by 0x10126A4B0: thread_start (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==  Address 0x1038f4020 is 12 bytes after a block of size 52 alloc'd
+==74064==    at 0x1002D46F1: malloc (vg_replace_malloc.c:303)
+==74064==    by 0x10010CBC9: std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> >::_Rep::_S_create(unsigned long, unsigned long, WSTP::MLStdAllocator<char> const&) (in ./gns)
+==74064==    by 0x1001410DD: WSTP::MLFileManager::entryNamesForDirectoryAtPath(std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> > const&) (in ./gns)
+==74064==    by 0x10006CD74: WSTP::MLSHMRecordManager::getRecordList() (in ./gns)
+==74064==    by 0x1000552DA: WSTP::MLSharedMemoryWorld::Thread1() (in ./gns)
+==74064==    by 0x100055B4C: non-virtual thunk to WSTP::MLSharedMemoryWorld::Thread1() (in ./gns)
+==74064==    by 0x10126C2FB: _pthread_body (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==    by 0x10126C278: _pthread_start (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==    by 0x10126A4B0: thread_start (in /usr/lib/system/libsystem_pthread.dylib)
+==74064== 
+==74064== Thread 2 ML-UnixThreads-RecordManagerThread:
+==74064== Invalid read of size 32
+==74064==    at 0x101258C21: _platform_memchr$VARIANT$Haswell (in /usr/lib/system/libsystem_platform.dylib)
+==74064==    by 0x100176FDD: WSTP::MLSyncObjectNameRecordFileFormat::interpretFileContents(WSTP::MLSmartPointer<WSTP::MLData> const&) (in ./gns)
+==74064==    by 0x10017C548: WSTP::MLSyncObjectNameRecordManager::getRecordList() (in ./gns)
+==74064==    by 0x100151C83: WSTP::recordManagerWatchThreadFunction(void*) (in ./gns)
+==74064==    by 0x10126C2FB: _pthread_body (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==    by 0x10126C278: _pthread_start (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==    by 0x10126A4B0: thread_start (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==  Address 0x1039184e0 is 15 bytes after a block of size 49 alloc'd
+==74064==    at 0x1002D46F1: malloc (vg_replace_malloc.c:303)
+==74064==    by 0x10010CBC9: std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> >::_Rep::_S_create(unsigned long, unsigned long, WSTP::MLStdAllocator<char> const&) (in ./gns)
+==74064==    by 0x10001F4FD: std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> >::_M_mutate(unsigned long, unsigned long, unsigned long) (in ./gns)
+==74064==    by 0x10001F3FE: std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> >::assign(char const*, unsigned long) (in ./gns)
+==74064==    by 0x100176FB9: WSTP::MLSyncObjectNameRecordFileFormat::interpretFileContents(WSTP::MLSmartPointer<WSTP::MLData> const&) (in ./gns)
+==74064==    by 0x10017C548: WSTP::MLSyncObjectNameRecordManager::getRecordList() (in ./gns)
+==74064==    by 0x100151C83: WSTP::recordManagerWatchThreadFunction(void*) (in ./gns)
+==74064==    by 0x10126C2FB: _pthread_body (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==    by 0x10126C278: _pthread_start (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==    by 0x10126A4B0: thread_start (in /usr/lib/system/libsystem_pthread.dylib)
+==74064== 
+==74064== Thread 5:
+==74064== Invalid read of size 32
+==74064==    at 0x101258C21: _platform_memchr$VARIANT$Haswell (in /usr/lib/system/libsystem_platform.dylib)
+==74064==    by 0x10126C93A: pthread_setname_np (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==    by 0x1001535FF: WSTP::MLUnixThread::SetName(std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> > const&) (in ./gns)
+==74064==    by 0x100153981: WSTP::MLUnixThread::SetName(char const*) (in ./gns)
+==74064==    by 0x100055BA7: WSTP::MLSharedMemoryWorld::Thread2() (in ./gns)
+==74064==    by 0x100055EFC: non-virtual thunk to WSTP::MLSharedMemoryWorld::Thread2() (in ./gns)
+==74064==    by 0x10126C2FB: _pthread_body (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==    by 0x10126C278: _pthread_start (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==    by 0x10126A4B0: thread_start (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==  Address 0x1039198a0 is 7 bytes after a block of size 57 alloc'd
+==74064==    at 0x1002D46F1: malloc (vg_replace_malloc.c:303)
+==74064==    by 0x10010CBC9: std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> >::_Rep::_S_create(unsigned long, unsigned long, WSTP::MLStdAllocator<char> const&) (in ./gns)
+==74064==    by 0x10001F311: std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> >::reserve(unsigned long) (in ./gns)
+==74064==    by 0x10001F13F: std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> > std::operator+<char, std::char_traits<char>, WSTP::MLStdAllocator<char> >(std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> > const&, std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> > const&) (in ./gns)
+==74064==    by 0x1001535ED: WSTP::MLUnixThread::SetName(std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> > const&) (in ./gns)
+==74064==    by 0x100153981: WSTP::MLUnixThread::SetName(char const*) (in ./gns)
+==74064==    by 0x100055BA7: WSTP::MLSharedMemoryWorld::Thread2() (in ./gns)
+==74064==    by 0x100055EFC: non-virtual thunk to WSTP::MLSharedMemoryWorld::Thread2() (in ./gns)
+==74064==    by 0x10126C2FB: _pthread_body (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==    by 0x10126C278: _pthread_start (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==    by 0x10126A4B0: thread_start (in /usr/lib/system/libsystem_pthread.dylib)
+==74064== 
+==74064== Invalid read of size 32
+==74064==    at 0x101258C21: _platform_memchr$VARIANT$Haswell (in /usr/lib/system/libsystem_platform.dylib)
+==74064==    by 0x10126C980: pthread_setname_np (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==    by 0x1001535FF: WSTP::MLUnixThread::SetName(std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> > const&) (in ./gns)
+==74064==    by 0x100153981: WSTP::MLUnixThread::SetName(char const*) (in ./gns)
+==74064==    by 0x100055BA7: WSTP::MLSharedMemoryWorld::Thread2() (in ./gns)
+==74064==    by 0x100055EFC: non-virtual thunk to WSTP::MLSharedMemoryWorld::Thread2() (in ./gns)
+==74064==    by 0x10126C2FB: _pthread_body (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==    by 0x10126C278: _pthread_start (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==    by 0x10126A4B0: thread_start (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==  Address 0x1039198a0 is 7 bytes after a block of size 57 alloc'd
+==74064==    at 0x1002D46F1: malloc (vg_replace_malloc.c:303)
+==74064==    by 0x10010CBC9: std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> >::_Rep::_S_create(unsigned long, unsigned long, WSTP::MLStdAllocator<char> const&) (in ./gns)
+==74064==    by 0x10001F311: std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> >::reserve(unsigned long) (in ./gns)
+==74064==    by 0x10001F13F: std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> > std::operator+<char, std::char_traits<char>, WSTP::MLStdAllocator<char> >(std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> > const&, std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> > const&) (in ./gns)
+==74064==    by 0x1001535ED: WSTP::MLUnixThread::SetName(std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> > const&) (in ./gns)
+==74064==    by 0x100153981: WSTP::MLUnixThread::SetName(char const*) (in ./gns)
+==74064==    by 0x100055BA7: WSTP::MLSharedMemoryWorld::Thread2() (in ./gns)
+==74064==    by 0x100055EFC: non-virtual thunk to WSTP::MLSharedMemoryWorld::Thread2() (in ./gns)
+==74064==    by 0x10126C2FB: _pthread_body (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==    by 0x10126C278: _pthread_start (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==    by 0x10126A4B0: thread_start (in /usr/lib/system/libsystem_pthread.dylib)
+==74064== 
+==74064== Thread 1:
+==74064== Conditional jump or move depends on uninitialised value(s)
+==74064==    at 0x101258C3F: _platform_memchr$VARIANT$Haswell (in /usr/lib/system/libsystem_platform.dylib)
+==74064==    by 0x10013FD6E: WSTP::MLFileManager::fileExistsAtPathOrOnSystemPath(std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> > const&) (in ./gns)
+==74064==    by 0x100105EBE: MLLaunch(ws_environment*, char const*, char const*, char const*, char const*, unsigned long, int*) (in ./gns)
+==74064==    by 0x10010B4F7: MLGenericOpen(ws_environment*, char const*, unsigned long, char const*, char const*, char const*, char const*, unsigned long, void*, void*, int*) (in ./gns)
+==74064==    by 0x100109D04: mlopen_argv(ws_environment*, long, char**, void*, void*, int*) (in ./gns)
+==74064==    by 0x1000019F8: init_and_openlink (in ./gns)
+==74064==    by 0x1000016A4: main (in ./gns)
+==74064== 
+==74064== Thread 2 ML-UnixThreads-RecordManagerThread:
+==74064== Invalid read of size 32
+==74064==    at 0x101258C6A: _platform_memchr$VARIANT$Haswell (in /usr/lib/system/libsystem_platform.dylib)
+==74064==    by 0x100176FDD: WSTP::MLSyncObjectNameRecordFileFormat::interpretFileContents(WSTP::MLSmartPointer<WSTP::MLData> const&) (in ./gns)
+==74064==    by 0x10017C548: WSTP::MLSyncObjectNameRecordManager::getRecordList() (in ./gns)
+==74064==    by 0x100151C83: WSTP::recordManagerWatchThreadFunction(void*) (in ./gns)
+==74064==    by 0x10126C2FB: _pthread_body (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==    by 0x10126C278: _pthread_start (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==    by 0x10126A4B0: thread_start (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==  Address 0x103941c20 is 16 bytes after a block of size 64 in arena "client"
+==74064== 
+--74064-- UNKNOWN mach_msg unhandled MACH_SEND_TRAILER option (repeated 8 times)
+==74064== Invalid read of size 32
+==74064==    at 0x101258C21: _platform_memchr$VARIANT$Haswell (in /usr/lib/system/libsystem_platform.dylib)
+==74064==    by 0x10017CE94: WSTP::MLSyncObjectNameRecordManager::isValidRecordFileName(std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> >) (in ./gns)
+==74064==    by 0x10017C143: WSTP::MLSyncObjectNameRecordManager::getRecordList() (in ./gns)
+==74064==    by 0x100151C83: WSTP::recordManagerWatchThreadFunction(void*) (in ./gns)
+==74064==    by 0x10126C2FB: _pthread_body (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==    by 0x10126C278: _pthread_start (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==    by 0x10126A4B0: thread_start (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==  Address 0x10390c0e0 is 12 bytes after a block of size 52 alloc'd
+==74064==    at 0x1002D46F1: malloc (vg_replace_malloc.c:303)
+==74064==    by 0x10010CBC9: std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> >::_Rep::_S_create(unsigned long, unsigned long, WSTP::MLStdAllocator<char> const&) (in ./gns)
+==74064==    by 0x1001410DD: WSTP::MLFileManager::entryNamesForDirectoryAtPath(std::basic_string<char, std::char_traits<char>, WSTP::MLStdAllocator<char> > const&) (in ./gns)
+==74064==    by 0x10017BF00: WSTP::MLSyncObjectNameRecordManager::getRecordList() (in ./gns)
+==74064==    by 0x100151C83: WSTP::recordManagerWatchThreadFunction(void*) (in ./gns)
+==74064==    by 0x10126C2FB: _pthread_body (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==    by 0x10126C278: _pthread_start (in /usr/lib/system/libsystem_pthread.dylib)
+==74064==    by 0x10126A4B0: thread_start (in /usr/lib/system/libsystem_pthread.dylib)
+==74064== 
+==74064== 
+==74064== HEAP SUMMARY:
+==74064==     in use at exit: 466,324 bytes in 1,407 blocks
+==74064==   total heap usage: 27,141 allocs, 25,734 frees, 3,148,853 bytes allocated
+==74064== 
+==74064== LEAK SUMMARY:
+==74064==    definitely lost: 3,425 bytes in 49 blocks
+==74064==    indirectly lost: 5,400 bytes in 24 blocks
+==74064==      possibly lost: 337,247 bytes in 415 blocks
+==74064==    still reachable: 120,252 bytes in 919 blocks
+==74064==         suppressed: 0 bytes in 0 blocks
+==74064== Rerun with --leak-check=full to see details of leaked memory
+==74064== 
+==74064== For counts of detected and suppressed errors, rerun with: -v
+==74064== Use --track-origins=yes to see where uninitialised values come from
+==74064== ERROR SUMMARY: 468 errors from 11 contexts (suppressed: 0 from 0)
