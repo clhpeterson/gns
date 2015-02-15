@@ -2,10 +2,20 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
-#include "queue.h"
-#include "coefficient.h"
-//#include "coefficient.c"
+#include "mathlink.h"
 
+
+/* To run this program use the command-line below:
+ *	Unix:           quotient -linkname "math -mathlink"
+ *	Mac or Windows: quotient -linkmode launch
+ */
+
+
+#define TRUE 1
+#define FALSE 0
+
+#define SPECIAL_INCREMENT(a, b) ((a == b+1) ? b+=2 : b++)
+#define SPECIAL_START(a) ((a == 0) ? 1 : 0)
 
 struct GNS
 {
@@ -23,6 +33,13 @@ int d;
 int* zero_vector;
 char** symbols;
 
+static void init_and_openlink( int argc, char* argv[]);
+static void closelink( void);
+static void deinit( void);
+int calculate_coefficient (int** exponent_list, int list_length, int missing_index, int e, char** symbols);
+
+
+
 struct GNS* create_genus_zero ();
 void print_gns (struct GNS* to_print);
 long n_choose_k (long N, long K);
@@ -39,6 +56,8 @@ int compare2 (int* first, int* second);
 int** sorted_generators (int** min_gen, int num_old_gen, int num_total);
 
 
+MLENV ep = (MLENV)0;
+MLINK lp = (MLINK)0;
 
 
 int main (int argc, char** argv)
@@ -120,7 +139,7 @@ int main (int argc, char** argv)
 		//printf ("\n");
 
 	}
-	WSPutFunction( lp, "Exit", 0);
+	MLPutFunction( lp, "Exit", 0);
 
 
 
@@ -459,3 +478,85 @@ int compare2 (int* first, int* second)
 	}
 	return -1;
 }
+
+
+
+int calculate_coefficient (int** exponent_list, int list_length, int missing_index, int e, char** symbols)
+{
+	int coefficient, pkt;
+	// need to make the symbols list
+
+	int* exponent = exponent_list[missing_index];
+
+	MLPutFunction (lp, "EvaluatePacket", 1L);
+		MLPutFunction (lp, "SeriesCoefficient", e+1);
+			MLPutFunction (lp, "Times", list_length-1);
+			for (int i = SPECIAL_START(missing_index); i < list_length; SPECIAL_INCREMENT(missing_index, i))
+			{
+				MLPutFunction (lp, "Divide", 2);
+					MLPutInteger (lp, 1);
+					MLPutFunction (lp, "Subtract", 2);
+						MLPutInteger (lp, 1);
+						MLPutFunction (lp, "Times", e);
+							for (int j = 0; j < e; j++)
+							{
+								MLPutFunction (lp, "Power", 2);
+									MLPutSymbol (lp, symbols[j]);
+									MLPutInteger (lp, exponent_list[i][j]);
+							}
+			}
+			for (int i = 0; i < e; i++)
+			{
+				MLPutFunction (lp, "List", 3);
+					MLPutSymbol (lp, symbols[i]);
+					MLPutInteger (lp, 0);
+					MLPutInteger (lp, exponent[i]);
+			}
+	MLEndPacket (lp);
+
+	/* skip any packets before the first ReturnPacket */
+	while( (pkt = MLNextPacket (lp), pkt) && pkt != RETURNPKT)
+		MLNewPacket (lp);
+
+	/* inside the ReturnPacket we expect an integer */
+	MLGetInteger (lp, &coefficient);
+
+	return coefficient;
+}
+
+
+static void deinit( void)
+{
+	if( ep) MLDeinitialize( ep);
+}
+
+
+static void closelink( void)
+{
+	if( lp) MLClose( lp);
+}
+
+
+static void init_and_openlink( int argc, char* argv[])
+{
+#if MLINTERFACE >= 3
+	int err;
+#else
+	long err;
+#endif /* MLINTERFACE >= 3 */
+
+	ep =  MLInitialize( (MLParametersPointer)0);
+	if( ep == (MLENV)0) exit(1);
+	atexit( deinit);
+
+#if MLINTERFACE < 3
+	lp = MLOpenArgv( ep, argv, argv + argc, &err);
+#else
+	lp = MLOpenArgcArgv( ep, argc, argv, &err);
+#endif
+	if(lp == (MLINK)0) exit(2);
+	atexit( closelink);
+}
+
+
+

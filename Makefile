@@ -6,43 +6,29 @@
 # Portions of this makefile require the use of GNU make.
 # see http://www.gnu.org/software/make for more information.
 
-VERSION=10.0
-WSTPLINKDIR = "/Volumes/Mathematica 1/Mathematica.app/Contents/SystemFiles/Links/WSTP/DeveloperKit/"
-SYS = MacOSX-x86-64
-CADDSDIR = ${WSTPLINKDIR}/${SYS}/CompilerAdditions
+VERSION=9.0
+MLINKDIR = "/Volumes/Mathematica/Mathematica.app/SystemFiles/Links/MathLink/DeveloperKit/MacOSX-x86-64"
+CADDSDIR = ${MLINKDIR}/CompilerAdditions
 EXTRA_CFLAGS=-stdlib=libstdc++
 
 INCDIR = ${CADDSDIR}
 LIBDIR = ${CADDSDIR}
 
-WSPREP = ${CADDSDIR}/wsprep
+WSPREP = ${CADDSDIR}/mprep
 RM = rm
-
-CC3 = gcc
-CXX3 = g++
 
 CC = /usr/bin/clang
 CXX = /usr/bin/clang++
 
-CC2 = gcc
 
-CFLAGS = -g3 -std=c99 -pedantic -Wall
+BINARIES = gns
 
-SOURCES1 =  gns.c coefficient.c
+all : $(BINARIES)
 
-SOURCES2 = queue.c
 
-TARGET = gns
+gns : gns.o
+	${CXX} ${EXTRA_CFLAGS} -I${INCDIR} gns.o -L${LIBDIR} -lMLi3 -lstdc++ -framework Foundation -o $@
 
-OBJECTS1 = $(SOURCES1:.c=.o)
-
-OBJECTS2 = $(SOURCES2:.c=.o)
-
-OBJECTS = $(OBJECTS1) $(OBJECTS2)
-
-all : $(TARGET)
-
-$(TARGET) : $(OBJECTS)
-	${CXX} ${EXTRA_CFLAGS} $^ -I${INCDIR} -L${LIBDIR}  -lWSTPi4 -lstdc++ -framework Foundation -o $@
-
+gns.o : gns.c
+	${CC} -c ${EXTRA_FLAGS} -I${INCDIR} $<
 	

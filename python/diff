@@ -1,0 +1,140 @@
+diff --git a/python/coefficient.py b/python/coefficient.py
+index 2e9c07f..c3db9a3 100644
+--- a/python/coefficient.py
++++ b/python/coefficient.py
+@@ -2,6 +2,7 @@ import numpy
+ import subprocess
+ import Queue
+ import sys
++import copy
+ 
+ # there are a couple of things you need to do
+ # first, you need the coefficient code. you pass in
+@@ -32,18 +33,15 @@ def create_monomial (symbols, powers):
+ 	to_return = [symbols[i]+"^"+str(powers[i]) for i in range(dimension)]
+ 	return "*".join(to_return)
+ 
+-def calculate_coefficient (exponent_list, length, missing_index):
+-	to_return = 'SeriesCoefficient[1'
+-	degree_missing = calculate_degree (exponent_list[missing_index])
++def calculate_coefficient (exponent_list, num_old_gen, length, bound_degree):
++	to_return = 'f := 1'
++	print exponent_list
+ 	i = 0
+ 	while i < length:
+-		if i == missing_index:
+-			i += 1
+-			continue
+ 		to_return += "(1+"
+ 		of_interest = exponent_list[i]
+ 		degree = calculate_degree (of_interest)
+-		power = degree_missing/degree + 1
++		power = bound_degree/degree + 1
+ 		j = 1
+ 		while j <= power:
+ 			to_return += create_monomial (symbols, of_interest*j)
+@@ -52,14 +50,20 @@ def calculate_coefficient (exponent_list, length, missing_index):
+ 		to_return = to_return[:-1]
+ 		to_return += ")"
+ 		i += 1
+-	to_return += ","
+-	i = 0
+-	while i < dimension:
+-		to_return += "{"+symbols[i]+",0,"+str(exponent_list[missing_index][i])+"},"
++	to_return += "; Evaluate["
++	i = num_old_gen
++	while i < len(exponent_list):
++		to_return += "SeriesCoefficient[f,"
++		j = 0
++		while j < dimension:
++			to_return += "{"+symbols[i]+",0,"+str(exponent_list[i][j])+"},"
++			j += 1
++		to_return = to_return[:-1]
++		to_return += "],"
+ 		i += 1
+ 	to_return = to_return[:-1]
+ 	to_return += "]"
+-	#print >> sys.stderr, to_return
++	print >> sys.stderr, to_return
+ 	p = subprocess.Popen(['/usr/bin/runMath', to_return], stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=1)
+ 	#out, err = p.communicate()
+ 	out = p.stdout.readline()
+@@ -84,28 +88,33 @@ def create_potential_generators (gns, missing_index):
+ 	old_gen = gns.generators
+ 	missing_generator = old_gen[missing_index]
+ 	degree_missing_gen = calculate_degree (missing_generator)
+-	if degree_missing_gen == 1:
+-		to_return = numpy.zeros((2*num_generators, dimension), dtype=numpy.int)
+-		to_return[-1] = missing_generator*3
+-	else:
+-		to_return = numpy.zeros((2*num_generators-1, dimension), dtype=numpy.int)
++	bound = 2*add_one (missing_generator)
++	to_return = numpy.zeros((2*num_generators, dimension), dtype=numpy.int)
+ 	index = 0
++	index2 = 0
+ 	for i in range(num_generators):
+ 		of_interest = old_gen[i]
+ 		if i != missing_index:
+ 			to_return[index] = old_gen[i]
+ 			index += 1
+-		to_return[num_generators-1+i] = of_interest+missing_generator
+-	return to_return
+-
+-def get_min_gen (potential_generators, where_start_new):
++		potential = of_interest+missing_generator
++		if compare (potential, bound) != 0:
++			break
++		to_return[num_generators-1+index2] = of_interest+missing_generator
++		index2 += 1
++	if compare (3*missing_generator, bound) == 0:
++		to_return[num_generators+1-index2] = 3*missing_generator
++		index2 += 1
++	return to_return[:num_generators-1+index2]
++
++def get_min_gen (potential_generators, where_start_new, bound_degree):
+ 	num_gens = len(potential_generators)
+ 	to_return = numpy.zeros((num_gens, dimension),dtype=numpy.int)
+ 	to_return[:where_start_new, :] = potential_generators[:where_start_new, :]
+ 	index = where_start_new
+ 	for i in range(where_start_new,num_gens):
+ 		while True:
+-			coefficient = calculate_coefficient (potential_generators, num_gens, i)
++			coefficient = calculate_coefficient (potential_generators, where_start_new, num_gens, bound_degree)
+ 			if coefficient != None:
+ 				break
+ 		if coefficient == 0:
+@@ -130,6 +139,20 @@ def compare (first, second):
+ 			return 1
+ 	return -1
+ 
++def add_one (vector):
++	length = len(vector)
++	copied = copy.deepcopy(vector)
++	for i in range (length-1, -1, -1):
++		if vector[i] != 0:
++			if i != 0:
++				copied[i] -= 1
++				copied[i-1] += 1
++				return copied
++	copied = numpy.zeros(dimension, dtype=int)
++	copied[length-1] = calculate_degree(vector)+1
++	return copied
++		
++
+ def sorted_generators (min_gens, num_old_gen, missing_generator):
+ 	num_total = len(min_gens)
+ 	to_return = numpy.zeros((num_total, dimension),dtype=numpy.int)
+@@ -211,7 +234,7 @@ while True:
+ 	for i in range(index_of_effective, num_generators):
+ 		missing_generator = of_interest.generators[i]
+ 		potential = create_potential_generators (of_interest, i)
+-		min_gens = get_min_gen (potential, num_generators-1)
++		min_gens = get_min_gen (potential, num_generators-1, 2*calculate_degree(missing_generator)+1)
+ 		sorted, index_of_effective = sorted_generators (min_gens, num_generators-1, missing_generator)
+ 		old_hole_set = of_interest.hole_set
+ 		if old_hole_set != None:
+@@ -227,3 +250,4 @@ while True:
+ 
+ 
+ 
++

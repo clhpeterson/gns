@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
-#include "wstp.h"
+#include "mathlink.h"
 
 #define TRUE 1
 #define FALSE 0
@@ -20,8 +20,8 @@ static void closelink( void);
 static void deinit( void);
 int calculate_coefficient (int** exponent_list, int list_length, int missing_index, int e, char** symbols);
 
-WSENV ep = (WSENV)0;
-WSLINK lp = (WSLINK)0;
+MLENV ep = (MLENV)0;
+MLINK lp = (MLINK)0;
 
 /*
 int main( int argc, char* argv[])
@@ -62,7 +62,7 @@ int main( int argc, char* argv[])
 
 	
 	// quit Mathematica
-	WSPutFunction( lp, "Exit", 0);
+	MLPutFunction( lp, "Exit", 0);
 
 	return 0;
 }
@@ -76,38 +76,38 @@ int calculate_coefficient (int** exponent_list, int list_length, int missing_ind
 
 	int* exponent = exponent_list[missing_index];
 
-	WSPutFunction (lp, "EvaluatePacket", 1L);
-		WSPutFunction (lp, "SeriesCoefficient", e+1);
-			WSPutFunction (lp, "Times", list_length-1);
+	MLPutFunction (lp, "EvaluatePacket", 1L);
+		MLPutFunction (lp, "SeriesCoefficient", e+1);
+			MLPutFunction (lp, "Times", list_length-1);
 			for (int i = SPECIAL_START(missing_index); i < list_length; SPECIAL_INCREMENT(missing_index, i))
 			{
-				WSPutFunction (lp, "Divide", 2);
-					WSPutInteger (lp, 1);
-					WSPutFunction (lp, "Subtract", 2);
-						WSPutInteger (lp, 1);
-						WSPutFunction (lp, "Times", e);
+				MLPutFunction (lp, "Divide", 2);
+					MLPutInteger (lp, 1);
+					MLPutFunction (lp, "Subtract", 2);
+						MLPutInteger (lp, 1);
+						MLPutFunction (lp, "Times", e);
 							for (int j = 0; j < e; j++)
 							{
-								WSPutFunction (lp, "Power", 2);
-									WSPutSymbol (lp, symbols[j]);
-									WSPutInteger (lp, exponent_list[i][j]);
+								MLPutFunction (lp, "Power", 2);
+									MLPutSymbol (lp, symbols[j]);
+									MLPutInteger (lp, exponent_list[i][j]);
 							}
 			}
 			for (int i = 0; i < e; i++)
 			{
-				WSPutFunction (lp, "List", 3);
-					WSPutSymbol (lp, symbols[i]);
-					WSPutInteger (lp, 0);
-					WSPutInteger (lp, exponent[i]);
+				MLPutFunction (lp, "List", 3);
+					MLPutSymbol (lp, symbols[i]);
+					MLPutInteger (lp, 0);
+					MLPutInteger (lp, exponent[i]);
 			}
-	WSEndPacket (lp);
+	MLEndPacket (lp);
 
 	/* skip any packets before the first ReturnPacket */
-	while( (pkt = WSNextPacket (lp), pkt) && pkt != RETURNPKT)
-		WSNewPacket (lp);
+	while( (pkt = MLNextPacket (lp), pkt) && pkt != RETURNPKT)
+		MLNewPacket (lp);
 
 	/* inside the ReturnPacket we expect an integer */
-	WSGetInteger (lp, &coefficient);
+	MLGetInteger (lp, &coefficient);
 
 	return coefficient;
 }
@@ -115,33 +115,33 @@ int calculate_coefficient (int** exponent_list, int list_length, int missing_ind
 
 static void deinit( void)
 {
-	if( ep) WSDeinitialize( ep);
+	if( ep) MLDeinitialize( ep);
 }
 
 
 static void closelink( void)
 {
-	if( lp) WSClose( lp);
+	if( lp) MLClose( lp);
 }
 
 
 static void init_and_openlink( int argc, char* argv[])
 {
-#if WSINTERFACE >= 3
+#if MLINTERFACE >= 3
 	int err;
 #else
 	long err;
-#endif /* WSINTERFACE >= 3 */
+#endif /* MLINTERFACE >= 3 */
 
-	ep =  WSInitialize( (WSEnvironmentParameter)0);
-	if( ep == (WSENV)0) exit(1);
+	ep =  MLInitialize( (MLParametersPointer)0);
+	if( ep == (MLENV)0) exit(1);
 	atexit( deinit);
 
-#if WSINTERFACE < 3
-	lp = WSOpenArgv( ep, argv, argv + argc, &err);
+#if MLINTERFACE < 3
+	lp = MLOpenArgv( ep, argv, argv + argc, &err);
 #else
-	lp = WSOpenArgcArgv( ep, argc, argv, &err);
+	lp = MLOpenArgcArgv( ep, argc, argv, &err);
 #endif
-	if(lp == (WSLINK)0) exit(2);
+	if(lp == (MLINK)0) exit(2);
 	atexit( closelink);
 }
