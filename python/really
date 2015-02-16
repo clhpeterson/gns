@@ -1,0 +1,103 @@
+------------------------------
+Generators:
+[[0 1]
+ [1 0]]
+Number of generators:
+2
+Index of effective generators:
+0
+Frobenius element:
+None
+Hole set:
+None
+Number of holes:
+0
+Frobenius degree:
+0
+Parent id:
+-1
+Self id:
+0
+------------------------------
+------------------------------
+Generators:
+[[1 0]]
+Number of generators:
+1
+Index of effective generators:
+0
+Frobenius element:
+[0 1]
+Hole set:
+[[0 1]]
+Number of holes:
+1
+Frobenius degree:
+1
+Parent id:
+0
+Self id:
+1
+------------------------------
+------------------------------
+Generators:
+[[0 1]]
+Number of generators:
+1
+Index of effective generators:
+0
+Frobenius element:
+[1 0]
+Hole set:
+[[1 0]]
+Number of holes:
+1
+Frobenius degree:
+1
+Parent id:
+0
+Self id:
+2
+------------------------------
+------------------------------
+Generators:
+[]
+Number of generators:
+0
+Index of effective generators:
+-1
+Frobenius element:
+[1 0]
+Hole set:
+[[0 1]
+ [1 0]]
+Number of holes:
+2
+Frobenius degree:
+1
+Parent id:
+1
+Self id:
+3
+------------------------------
+------------------------------
+Generators:
+[]
+Number of generators:
+0
+Index of effective generators:
+-1
+Frobenius element:
+[0 1]
+Hole set:
+[[1 0]
+ [0 1]]
+Number of holes:
+2
+Frobenius degree:
+1
+Parent id:
+2
+Self id:
+4
+------------------------------
